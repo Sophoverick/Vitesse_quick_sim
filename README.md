@@ -16,7 +16,60 @@ Installing x-term is recommended as it allows the ardupilot sitl interface to ru
 ```
 sudo apt install xterm
 ```
+Python ROS Packages for catkin packages:
+```
+sudo apt-get install python3-wstool python3-rosinstall-generator python3-catkin-lint python3-pip python3-catkin-tools
+pip3 install osrf-pycommon
+```
+## Setup
 
+First make the base catkin directory:
+```
+mkdir -p ~/catkin_ws/src && cd catkin_ws/src
+```
+Then we setup mavros and mavlink prior:
+```
+cd ~/catkin_ws
+wstool init ~/catkin_ws/src
+
+rosinstall_generator --upstream mavros | tee /tmp/mavros.rosinstall
+rosinstall_generator mavlink | tee -a /tmp/mavros.rosinstall
+wstool merge -t src /tmp/mavros.rosinstall
+wstool update -t src
+rosdep install --from-paths src --ignore-src --rosdistro `echo $ROS_DISTRO` -y
+
+catkin build
+```
+Put it in bashrc:
+```
+echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+```
+Source it:
+```
+source ~/.bashrc
+```
+Then install the geographic lib dataset:
+```
+sudo ~/catkin_ws/src/mavros/mavros/scripts/install_geographiclib_datasets.sh
+```
+Finally we approach to the actual package:
+```
+cd ~/catkin_ws/src
+git clone https://github.com/Sophoverick/Vitesse_quick_sim.git
+```
+Now add to gazebo setup path, our sim file location:
+```
+echo "GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:$HOME/catkin_ws/src/iq_sim/models" >> ~/.bashrc
+```
+Now we build:
+```
+cd ~/catkin_ws
+catkin build
+```
+Now we update the variables:
+```
+source ~/.bashrc
+```
 ## Drone World
 
 This repo contains the file for the simulation:
