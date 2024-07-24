@@ -59,7 +59,7 @@ git clone https://github.com/Sophoverick/Vitesse_quick_sim.git
 ```
 Now add to gazebo setup path, our sim file location:
 ```
-echo "GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:$HOME/catkin_ws/src/iq_sim/models" >> ~/.bashrc
+echo "GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:$HOME/catkin_ws/src/Vitesse_quick_sim/models" >> ~/.bashrc
 ```
 Now we build:
 ```
